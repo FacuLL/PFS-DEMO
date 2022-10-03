@@ -114,7 +114,7 @@ export class ConcesionariaService {
                     for (let i = 0; i < this.listaVehiculos.length; i++) {
                         if (this.listaVehiculos[i].getPatente() == nuevovehiculo.patente) return 'Ya existe un vehiculo con dicha patente';
                     }
-                    if (vehiculo.getVehicleType() == 'Auto') {
+                    if (nuevovehiculo.getVehicleType() == 'Auto') {
                         if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio) throw Error('Faltan datos');
                         if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number') throw Error('Datos incorrectos');
                         let nuevoauto = new Auto(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio);
