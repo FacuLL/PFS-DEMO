@@ -125,7 +125,7 @@ export class ConcesionariaService {
                         if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio || !nuevovehiculo.capacidad) throw Error('Faltan datos');
                         if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number' || typeof nuevovehiculo.capacidad != "number") throw Error('Datos incorrectos');
                         let nuevacamioneta = new Camioneta(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio, nuevovehiculo.capacidad);
-                        this.listaVehiculos.push(nuevacamioneta);
+                        this.listaVehiculos[i] = nuevacamioneta;
                         return 'Camioneta actualizada correctamente';
                     }
                 }
