@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concesionaria</title>
+    <link rel="stylesheet" href="styles/concesionaria.css">
+</head>
+<body>
+    <div class="navbar">
+        <h1 class="titulo">Concesionaria</h1>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="filters">
+                <p>Patente</p>
+                <input type="text" name="patente" class="patente">
+                <p>Tipo</p>
+                <select name="tipo" class="tipo">
+                    <option value="Cualquiera" selected>Cualquiera</option>
+                    <option value="Auto">Auto</option>
+                    <option value="Camioneta">Camioneta</option>
+                </select>
+                <p>Marca</p>
+                <input type="text" name="marca" class="marca">
+                <p>Modelo</p>
+                <input type="text" name="modelo" class="modelo">
+                <p>Precio</p>
+                <div class="inputs">
+                    <input type="number" name="precioinicial" placeholder="Inicial" class="precioinicial">
+                    <input type="number" name="preciofinal" placeholder="Final" class="preciofinal">
+                </div>
+                <p>Año</p>
+                <div class="inputs">
+                    <input type="number" name="anioinicial" placeholder="Inicial" class="anioinicial">
+                    <input type="number" name="aniofinal" placeholder="Final" class="aniofinal">
+                </div>
+                <div class="submitbutton">
+                    <input type="submit" class="submitbt" value="Buscar">
+                </div>
+            </div>
+            <div class="add">
+                <a href="concesionaria/add.html" class="pAdd">Añadir vehiculos</a>
+            </div>
+        </div>
+        <div class="vehiclelist">
+            <table class="vehicletable">
+                <tr>
+                    <th>Patente</th>
+                    <th>Tipo</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Precio</th>
+                    <th>Año</th>
+                </tr>
+                <tr>
+                    <td>ABC123</td>
+                    <td>Auto</td>
+                    <td>Toyota</td>
+                    <td>Corolla</td>
+                    <td>3000000</td>
+                    <td>2007</td>
+                </tr>
+                <tr>
+                    <td>ABC123</td>
+                    <td>Auto</td>
+                    <td>Toyota</td>
+                    <td>Corolla</td>
+                    <td>3000000</td>
+                    <td>2007</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="js/concesionaria.js"></script>
+</body>
+</html>
