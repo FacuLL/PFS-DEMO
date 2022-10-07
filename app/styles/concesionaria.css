@@ -175,3 +175,19 @@ td {
     font-size: 18px;
     transition: font-size 0.1s;
 }
+
+.midcontainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.filtersmargin {
+    margin-left: 20px;
+}
+.back {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

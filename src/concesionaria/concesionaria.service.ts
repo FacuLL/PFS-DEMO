@@ -127,21 +127,17 @@ export class ConcesionariaService {
             for (let i = 0; i < this.listaVehiculos.length; i++) {
                 let vehiculo = this.listaVehiculos[i];
                 if(vehiculo.getPatente() == patente) {
-                    this.listaVehiculos[i] = undefined;
-                    for (let i = 0; i < this.listaVehiculos.length; i++) {
-                        if (this.listaVehiculos[i].getPatente() == nuevovehiculo.patente) return 'Ya existe un vehiculo con dicha patente';
-                    }
-                    if (nuevovehiculo.getVehicleType() == 'Auto') {
-                        if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio) throw Error('Faltan datos');
-                        if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number') throw Error('Datos incorrectos');
-                        let nuevoauto = new Auto(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio);
+                    if (nuevovehiculo.tipo == 'Auto') {
+                        if (!nuevovehiculo.marca || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio) throw Error('Faltan datos');
+                        if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number') throw Error('Datos incorrectos');
+                        let nuevoauto = new Auto(nuevovehiculo.marca, patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio);
                         this.listaVehiculos[i] = nuevoauto;
                         return 'Auto actualizado correctamente';
                     }
                     else {
                         if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio || !nuevovehiculo.capacidad) throw Error('Faltan datos');
                         if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number' || typeof nuevovehiculo.capacidad != "number") throw Error('Datos incorrectos');
-                        let nuevacamioneta = new Camioneta(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio, nuevovehiculo.capacidad);
+                        let nuevacamioneta = new Camioneta(nuevovehiculo.marca, patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio, nuevovehiculo.capacidad);
                         this.listaVehiculos[i] = nuevacamioneta;
                         return 'Camioneta actualizada correctamente';
                     }
