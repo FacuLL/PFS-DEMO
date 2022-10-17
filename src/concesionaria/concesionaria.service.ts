@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { throwError } from 'rxjs';
 import { Auto } from './Models/Auto';
 import { Camioneta } from './Models/Camioneta';
 import { Vehiculo } from './Models/Vehiculo';
@@ -9,94 +10,110 @@ export class ConcesionariaService {
 
     constructor() {}
 
-    getAllVehicles(): Vehiculo[] {
-        return this.listaVehiculos;
-    }
-
-    getAllCamionetas(): Vehiculo[] {
-        let camionetas: Vehiculo[] = [];
-        this.listaVehiculos.forEach(vehiculo => {
-            if(vehiculo.getVehicleType() == 'Camioneta') camionetas.push(vehiculo);
-        });
-        return camionetas;
-    }
-
-    getAllAutos(): Vehiculo[] {
-        let autos: Vehiculo[];
-        this.listaVehiculos.forEach(vehiculo => {
-            if(vehiculo.getVehicleType() == 'Auto') autos.push(vehiculo);
-        })
-        return autos;
-    }
-
-    getVehicleByPatente(patente: string): Vehiculo | undefined {
-        let mivehiculo: Vehiculo;
-        this.listaVehiculos.forEach(vehiculo => {
-            if (vehiculo.getPatente() == patente) mivehiculo = vehiculo;
-        })
-        return mivehiculo;
-    }
-
-    getVehiclesByMarca(marca: string): Vehiculo[] {
-        let vehiculos: Vehiculo[] = [];
-        this.listaVehiculos.forEach(vehiculo => {
-            if (vehiculo.getMarca() == marca) vehiculos.push(vehiculo);
-        })
-        return vehiculos;
-    }
-
-    getVehiclesByModelo(modelo: string): Vehiculo[] {
-        let vehiculos: Vehiculo[] = [];
-        this.listaVehiculos.forEach(vehiculo => {
-            if (vehiculo.getModelo() == modelo) vehiculos.push(vehiculo);
-        })
-        return vehiculos;
-    }
-
-    getVehiclesByAño(añoinicio: number, añofin: number): Vehiculo[] {
-        let vehiculos: Vehiculo[] = [];
-        this.listaVehiculos.forEach(vehiculo => {
-            if (vehiculo.getAño() >= añoinicio && vehiculo.getAño() <= añofin) vehiculos.push(vehiculo);
-        })
-        return vehiculos;
-    }
-
-    getVehiclesByPrecio(precioinicio: number, preciofin: number): Vehiculo[] {
-        let vehiculos: Vehiculo[] = [];
-        this.listaVehiculos.forEach(vehiculo => {
-            if (vehiculo.getPrecio() >= precioinicio && vehiculo.getPrecio() <= preciofin) vehiculos.push(vehiculo);
-        })
+    getVehicles(parameters?: any): Vehiculo[] {
+        let vehiculos: Vehiculo[] = this.listaVehiculos;
+        let filtrado: Vehiculo[] = [];
+        if(parameters.tipo == "Cualquiera") parameters.tipo = undefined;
+        if(parameters.patente) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getPatente() == parameters.patente) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.tipo) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getVehicleType() == parameters.tipo) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.marca) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getMarca() == parameters.marca) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.modelo) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getModelo() == parameters.modelo) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.precioinicial) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getPrecio() >= parameters.precioinicial) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.preciofinal) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getPrecio() <= parameters.preciofinal) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.anioinicial) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getAño() >= parameters.anioinicial) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.aniofinal) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getAño() <= parameters.aniofinal) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.anioinicial) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getAño() >= parameters.anioinicial) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
+        if(parameters.aniofinal) {
+            vehiculos.forEach(vehiculo => {
+                if (vehiculo.getAño() <= parameters.aniofinal) filtrado.push(vehiculo);
+            })
+            vehiculos = filtrado;
+            filtrado = [];
+        }
         return vehiculos;
     }
 
     // POST
 
-    addAuto(auto: any): string {
+    addVehicles(vehiculos: any): string {
         try {
-            if (!auto.marca || !auto.patente || !auto.modelo || !auto.año || !auto.precio) throw Error('Faltan datos');
-            if (typeof auto.marca != 'string' || typeof auto.patente != 'string' || typeof auto.modelo != 'string' || typeof auto.año != 'number' || typeof auto.precio != 'number') throw Error('Datos incorrectos');
-            for (let i = 0; i < this.listaVehiculos.length; i++) {
-                if (this.listaVehiculos[i].getPatente() == auto.patente) return 'Ya existe un vehiculo con dicha patente';
+            if (vehiculos.length == 0) return 'Debe haber al menos 1 vehiculo para añadir';
+            for (let i = 0; i < vehiculos.length; i++) {
+                const vehiculo = vehiculos[i];
+                if (!vehiculo.marca || !vehiculo.patente || !vehiculo.modelo || !vehiculo.año || !vehiculo.precio) throw Error('Faltan datos');
+                if (typeof vehiculo.marca != 'string' || typeof vehiculo.patente != 'string' || typeof vehiculo.modelo != 'string' || typeof vehiculo.año != 'number' || typeof vehiculo.precio != 'number') throw Error('Datos incorrectos');
+                for (let i = 0; i < this.listaVehiculos.length; i++) {
+                    if (this.listaVehiculos[i].getPatente() == vehiculo.patente) return 'Ya existe un vehiculo con dicha patente';
+                }
+                if (vehiculo.capacidad) {
+                    if (typeof vehiculo.capacidad == 'number') {
+                        let nuevacamioneta = new Camioneta(vehiculo.marca, vehiculo.patente, vehiculo.modelo, vehiculo.año, vehiculo.precio, vehiculo.capacidad);
+                        this.listaVehiculos.push(nuevacamioneta);
+                        if (vehiculos.length == 1) return 'Camioneta añadido correctamente'
+                    }
+                    else throw new Error('Datos incorrectos')
+                }
+                else {
+                    let nuevovehiculo = new Auto(vehiculo.marca, vehiculo.patente, vehiculo.modelo, vehiculo.año, vehiculo.precio);
+                    this.listaVehiculos.push(nuevovehiculo);
+                    if (vehiculos.length == 1) return 'Auto añadido correctamente'
+                }   
             }
-            let nuevoauto = new Auto(auto.marca, auto.patente, auto.modelo, auto.año, auto.precio);
-            this.listaVehiculos.push(nuevoauto);
-            return 'Auto añadido correctamente'
-        }
-        catch(e) {
-            return e.message;
-        }
-    }
-
-    addCamioneta(camioneta: any): string {
-        try {
-            if (!camioneta.marca || !camioneta.patente || !camioneta.modelo || !camioneta.año || !camioneta.precio || !camioneta.capacidad) throw Error('Faltan datos');
-            if (typeof camioneta.marca != 'string' || typeof camioneta.patente != 'string' || typeof camioneta.modelo != 'string' || typeof camioneta.año != 'number' || typeof camioneta.precio != 'number' || typeof camioneta.capacidad != "number") throw Error('Datos incorrectos');
-            for (let i = 0; i < this.listaVehiculos.length; i++) {
-                if (this.listaVehiculos[i].getPatente() == camioneta.patente) return 'Ya existe un vehiculo con dicha patente';
-            }
-            let nuevacamioneta = new Camioneta(camioneta.marca, camioneta.patente, camioneta.modelo, camioneta.año, camioneta.precio, camioneta.capacidad);
-            this.listaVehiculos.push(nuevacamioneta);
-            return 'Camioneta añadida correctamente';
+            return 'Vehiculos añadidos correctamente';
         }
         catch(e) {
             return e.message;
@@ -110,21 +127,17 @@ export class ConcesionariaService {
             for (let i = 0; i < this.listaVehiculos.length; i++) {
                 let vehiculo = this.listaVehiculos[i];
                 if(vehiculo.getPatente() == patente) {
-                    this.listaVehiculos[i] = undefined;
-                    for (let i = 0; i < this.listaVehiculos.length; i++) {
-                        if (this.listaVehiculos[i].getPatente() == nuevovehiculo.patente) return 'Ya existe un vehiculo con dicha patente';
-                    }
-                    if (nuevovehiculo.getVehicleType() == 'Auto') {
-                        if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio) throw Error('Faltan datos');
-                        if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number') throw Error('Datos incorrectos');
-                        let nuevoauto = new Auto(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio);
+                    if (nuevovehiculo.tipo == 'Auto') {
+                        if (!nuevovehiculo.marca || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio) throw Error('Faltan datos');
+                        if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number') throw Error('Datos incorrectos');
+                        let nuevoauto = new Auto(nuevovehiculo.marca, patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio);
                         this.listaVehiculos[i] = nuevoauto;
                         return 'Auto actualizado correctamente';
                     }
                     else {
                         if (!nuevovehiculo.marca || !nuevovehiculo.patente || !nuevovehiculo.modelo || !nuevovehiculo.año || !nuevovehiculo.precio || !nuevovehiculo.capacidad) throw Error('Faltan datos');
                         if (typeof nuevovehiculo.marca != 'string' || typeof nuevovehiculo.patente != 'string' || typeof nuevovehiculo.modelo != 'string' || typeof nuevovehiculo.año != 'number' || typeof nuevovehiculo.precio != 'number' || typeof nuevovehiculo.capacidad != "number") throw Error('Datos incorrectos');
-                        let nuevacamioneta = new Camioneta(nuevovehiculo.marca, nuevovehiculo.patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio, nuevovehiculo.capacidad);
+                        let nuevacamioneta = new Camioneta(nuevovehiculo.marca, patente, nuevovehiculo.modelo, nuevovehiculo.año, nuevovehiculo.precio, nuevovehiculo.capacidad);
                         this.listaVehiculos[i] = nuevacamioneta;
                         return 'Camioneta actualizada correctamente';
                     }

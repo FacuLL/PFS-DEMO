@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concesionaria</title>
+    <link rel="stylesheet" href="../styles/concesionaria.css">
+</head>
+<body>
+    <div class="navbar">
+        <h1 class="titulo">Concesionaria</h1>
+    </div>
+    <div class="sectionTitle">
+        <h1 class="vehicleType"></h1>
+    </div>
+    <div class="midcontainer">
+        <div class="left">
+            <div class="filters">
+                <p>Tipo</p>
+                <select name="tipo" class="tipo">
+                    <option value="Auto">Auto</option>
+                    <option value="Camioneta">Camioneta</option>
+                </select>
+                <p>Marca</p>
+                <input type="text" name="marca" class="marca">
+                <p>Modelo</p>
+                <input type="text" name="modelo" class="modelo">
+                <p>Precio</p>
+                    <input type="number" name="precio" class="precio">
+                <p>Año</p>
+                <input type="number" name="año" class="anio">
+                <div class="divcapacidad">
+                    <p>Capacidad</p>
+                    <input type="number" name="capacidad" class="capacidad">
+                </div>
+                <div class="submitbutton">
+                    <input type="submit" class="submitbt" value="Actualizar">
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="filters filtersmargin">
+                <p>Otras opciones</p>
+                <div class="deletebutton">
+                    <input type="submit" class="btDel" value="Eliminar">
+                </div>
+            </div>
+            <p class="error"></p>
+        </div>
+    </div>
+    <div class="back">
+        <a href="../concesionaria.html" class="pBack">Volver</a>
+    </div>
+    <script src="../js/concesionariaeditar.js"></script>
+</body>
+</html>
